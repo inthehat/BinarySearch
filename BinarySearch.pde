@@ -23,17 +23,60 @@ private Item[] store = {new Item(184,14),
 public int linearSearch(int catNumToFind)
 {
     //complete this method
+    for(int i=0;i<store.length;i++)
+    {
+        if(store[i].getCatNum() == catNumToFind)
+        {
+            return store[i].getInventory();
+        }
+    }
     return -1;
 }
 public int binarySearch(int catNumToFind)
 {
     //complete this method    
+    int low = 0;
+    int high = store.length-1;
+    while(low<=high)
+    {
+        int guess = (low+high)/2; 
+        if(store[guess].getCatNum() == catNumToFind)
+        {
+            return store[guess].getInventory();
+        }
+        else if(store[guess].getCatNum() > catNumToFind)
+        {
+            high = guess-1;
+        }
+        else
+        {
+            low = guess+1;
+        }
+    }
     return -1;    
 }
 public int binarySearch(int catNumToFind,int nLow, int nHigh)
 {
-    //complete this method    
-    return -1;           
+    //complete this method
+    if(nLow>nHigh)
+    {
+        return -1;
+    }
+    int mid = (nLow+nHigh)/2;
+    if(store[mid].getCatNum() == catNumToFind)
+    {
+        return store[mid].getInventory();
+    }
+    else if(store[mid].getCatNum() > catNumToFind)
+    {
+        return binarySearch(catNumToFind,nLow,mid-1);
+    }
+    else if(store[mid].getCatNum() < catNumToFind)
+    {
+        return binarySearch(catNumToFind,mid+1,nHigh);
+    }
+    return -1;
+
 }
 public void setup()
 {
@@ -43,7 +86,6 @@ public void setup()
     System.out.println("=====================");
     for (int i = 0; i < tests.length; i++)
     {
-
         if(linearSearch(tests[i]) != -1)
             System.out.println("Catalog #"+tests[i]+" has "+linearSearch(tests[i]) + " in stock");
         else
@@ -65,7 +107,6 @@ public void setup()
     System.out.println("===============================");
     for (int i = 0; i < tests.length; i++)
     {
-
         if(binarySearch(tests[i],0,store.length - 1) != -1)
             System.out.println("Catalog #"+tests[i]+" has "+binarySearch(tests[i],0,store.length - 1) + " in stock");
         else
